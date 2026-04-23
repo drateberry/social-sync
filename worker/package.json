@@ -1,0 +1,27 @@
+{
+  "name": "@crosspost/worker",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "tail": "wrangler tail",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "db:migrate:local": "wrangler d1 migrations apply crosspost --local",
+    "db:migrate:remote": "wrangler d1 migrations apply crosspost --remote"
+  },
+  "dependencies": {
+    "@crosspost/shared": "*",
+    "@atproto/api": "^0.13.15"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250109.0",
+    "typescript": "^5.6.2",
+    "vitest": "^2.1.9",
+    "wrangler": "^3.99.0"
+  }
+}

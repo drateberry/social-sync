@@ -1,0 +1,70 @@
+name = "crosspost"
+main = "src/index.ts"
+compatibility_date = "2026-04-01"
+compatibility_flags = ["nodejs_compat"]
+
+workers_dev = false
+
+[vars]
+LOG_LEVEL = "info"
+BLOG_FEED_URL = "https://www.drateberry.com/feed.xml"
+BLOG_HOSTNAME = "www.drateberry.com"
+ENABLE_X_SYNC = "false"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "crosspost"
+database_id = "REPLACE_WITH_DB_ID_FROM_WRANGLER_D1_CREATE"
+migrations_dir = "migrations"
+
+[[r2_buckets]]
+binding = "MEDIA"
+bucket_name = "crosspost-media"
+
+[[queues.producers]]
+binding = "PUBLISH_QUEUE"
+queue = "crosspost-publish"
+
+[[queues.consumers]]
+queue = "crosspost-publish"
+max_batch_size = 10
+max_batch_timeout = 5
+max_retries = 5
+dead_letter_queue = "crosspost-publish-dlq"
+
+[triggers]
+crons = ["*/5 * * * *"]
+
+# ---- preview environment ----
+[env.preview]
+name = "crosspost-preview"
+
+[env.preview.vars]
+LOG_LEVEL = "debug"
+BLOG_FEED_URL = "https://www.drateberry.com/feed.xml"
+BLOG_HOSTNAME = "www.drateberry.com"
+ENABLE_X_SYNC = "false"
+
+[[env.preview.d1_databases]]
+binding = "DB"
+database_name = "crosspost-preview"
+database_id = "REPLACE_WITH_PREVIEW_DB_ID"
+migrations_dir = "migrations"
+
+[[env.preview.r2_buckets]]
+binding = "MEDIA"
+bucket_name = "crosspost-media-preview"
+
+[[env.preview.queues.producers]]
+binding = "PUBLISH_QUEUE"
+queue = "crosspost-publish-preview"
+
+[[env.preview.queues.consumers]]
+queue = "crosspost-publish-preview"
+max_batch_size = 10
+max_batch_timeout = 5
+max_retries = 5
+dead_letter_queue = "crosspost-publish-preview-dlq"
+
+[env.preview.triggers]
+crons = ["*/5 * * * *"]

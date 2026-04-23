@@ -1,0 +1,25 @@
+{
+  "name": "crosspost",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Cross-platform social sync for X, Mastodon, and Bluesky",
+  "license": "MIT",
+  "workspaces": [
+    "shared",
+    "worker",
+    "web"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "worker:dev": "npm run dev --workspace worker",
+    "web:dev": "npm run dev --workspace web"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.2"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

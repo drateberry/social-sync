@@ -11,7 +11,7 @@ LOG_LEVEL = "info"
 # Leave empty to disable blog-exclusion. See docs/architecture.md rule 3.
 BLOG_FEED_URL = ""
 # Toggle to "true" after configuring X secrets and confirming the ceiling.
-ENABLE_X_SYNC = "false"
+ENABLE_X_SYNC = "true"
 
 [[d1_databases]]
 binding = "DB"

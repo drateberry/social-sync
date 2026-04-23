@@ -1,6 +1,7 @@
 import type { NormalizedMedia, NormalizedPost } from "@social-sync/shared";
 import type { Env } from "../env.js";
 import type { Db } from "../lib/db.js";
+import { normalizeBaseUrl } from "../lib/url.js";
 
 interface MastodonStatus {
   id: string;
@@ -57,7 +58,7 @@ export async function pollMastodon(env: Env, db: Db): Promise<NormalizedPost[]> 
   const acct = await db.getPlatformAccount("mastodon");
   if (!acct || acct.enabled === 0) return [];
 
-  const base = env.MASTODON_INSTANCE_URL.replace(/\/$/, "");
+  const base = normalizeBaseUrl(env.MASTODON_INSTANCE_URL);
   const params = new URLSearchParams({
     limit: "40",
     exclude_replies: "true",

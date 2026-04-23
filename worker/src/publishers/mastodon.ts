@@ -2,6 +2,7 @@ import type { PublishResult } from "@social-sync/shared";
 import type { Env } from "../env.js";
 import { idempotencyKey } from "../lib/idempotency.js";
 import { splitIntoThread } from "../lib/thread-splitter.js";
+import { normalizeBaseUrl } from "../lib/url.js";
 import { PLATFORM_LIMITS } from "@social-sync/shared";
 
 interface PublishInput {
@@ -22,7 +23,7 @@ export async function publishToMastodon(
   if (!env.MASTODON_INSTANCE_URL || !env.MASTODON_ACCESS_TOKEN) {
     throw new Error("Mastodon not configured");
   }
-  const base = env.MASTODON_INSTANCE_URL.replace(/\/$/, "");
+  const base = normalizeBaseUrl(env.MASTODON_INSTANCE_URL);
   const limit = input.max_chars ?? PLATFORM_LIMITS.mastodon.text;
   const parts = splitIntoThread(input.text, { limit });
 

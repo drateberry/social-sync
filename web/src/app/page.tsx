@@ -17,7 +17,7 @@ export default async function HomePage() {
       <Card>
         <CardTitle>Connection error</CardTitle>
         <p className="text-sm text-[var(--muted)]">
-          Could not reach the worker at <code className="font-mono">{process.env.NEXT_PUBLIC_WORKER_URL}</code>.
+          Could not reach the API worker. Check that <code className="font-mono">WORKER_URL</code> and <code className="font-mono">ADMIN_TOKEN</code> are set on the dashboard worker.
         </p>
         {error && <pre className="mt-3 font-mono text-xs text-[var(--muted)]">{error}</pre>}
       </Card>

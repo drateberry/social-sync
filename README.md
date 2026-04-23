@@ -114,17 +114,32 @@ Deploy the worker:
 cd worker && npx wrangler deploy
 ```
 
-Deploy the dashboard. It's a Next.js App Router app with server components, compiled to a Cloudflare Worker (with static assets) via the [OpenNext Cloudflare adapter](https://opennext.js.org/cloudflare):
+Deploy the dashboard. It's a Next.js App Router app with server components, compiled to a Cloudflare Worker (with static assets) via the [OpenNext Cloudflare adapter](https://opennext.js.org/cloudflare). The dashboard Worker reaches the API Worker via a **service binding** (configured in `web/wrangler.toml`), not a public URL — so the API Worker has `workers_dev = false` and is not exposed to the open internet.
 
 ```bash
 cd ../web
-cp .env.example .env.local                  # then edit WORKER_URL to the deployed worker URL
+cp .env.example .env.local                  # used only for `npm run dev` locally
 npm run cf:deploy                           # opennextjs-cloudflare build + deploy
 ```
 
-The dashboard deploys as a separate Worker named `social-sync-web` (see `web/wrangler.toml`) — distinct from the API worker deployed in the first step. You can preview locally with `npm run cf:preview`.
+The dashboard deploys as a separate Worker named `social-sync-web` — distinct from the API Worker. You can preview locally with `npm run cf:preview`. The service binding requires the API Worker (`social-sync`) to exist first; step 6 already took care of that.
 
-`WORKER_URL` is baked into the build (see `next.config.mjs`), so it must be set in `.env.local` **before** you run `cf:deploy`. If the API worker URL changes, rebuild and redeploy — setting env vars in the Cloudflare dashboard after the fact will not affect the already-built bundle.
+Then give the dashboard the admin password so it can authenticate service-binding calls to the API Worker:
+
+```bash
+# from web/
+npx wrangler secret put ADMIN_TOKEN         # plaintext admin password (the one you hashed into ADMIN_PASSWORD_HASH on the API worker)
+```
+
+**Optional — IP allowlist:** to restrict dashboard access to specific IPs (e.g. your VPN egress), set a comma-separated list of IPv4/IPv6 addresses and/or IPv4 CIDR ranges:
+
+```bash
+npx wrangler secret put ALLOWED_IPS         # e.g. "203.0.113.42" or "203.0.113.0/24,198.51.100.5"
+```
+
+Leave `ALLOWED_IPS` unset to accept any IP. The check is implemented as Next.js middleware against Cloudflare's `cf-connecting-ip` header.
+
+If you're using Cloudflare Access on a custom domain instead, skip `ADMIN_TOKEN` and `ALLOWED_IPS` — but note that Access doesn't protect `*.workers.dev` URLs, so you'd need to put the dashboard behind a zone you own.
 
 ---
 
@@ -195,7 +210,7 @@ The canary test (`worker/tests/loop-prevention.test.ts`) is the one test you mus
 
 ## Monitoring
 
-- `npx wrangler tail --name social-sync` — live worker logs.
+- `npx wrangler tail social-sync` — live worker logs.
 - `/logs` on the dashboard — last 500 sync events from D1.
 - `/` on the dashboard — current month's X spend vs. ceiling.
 

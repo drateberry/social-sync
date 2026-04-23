@@ -33,7 +33,7 @@ export async function publishToBluesky(
   let headUri = "";
 
   for (let i = 0; i < parts.length; i++) {
-    const rkey = blueskyRkey(input.post_id, i);
+    const rkey = await blueskyRkey(input.post_id, i);
     const rt = new RichText({ text: parts[i]! });
     await rt.detectFacets(agent);
     const record: Record<string, unknown> = {

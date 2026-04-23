@@ -1,4 +1,4 @@
--- Crosspost initial schema
+-- Social Sync initial schema
 -- See docs/architecture.md for loop-prevention logic over these tables.
 
 CREATE TABLE posts (

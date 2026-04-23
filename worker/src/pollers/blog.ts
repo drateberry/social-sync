@@ -15,7 +15,7 @@ export async function pollBlogFeed(env: Env, db: Db): Promise<number> {
   if (!url) return 0;
 
   const res = await fetch(url, {
-    headers: { "user-agent": "crosspost-sync/0.1 (+https://github.com/drateberry/social-sync)" },
+    headers: { "user-agent": "social-sync/0.1 (+https://github.com/drateberry/social-sync)" },
   });
   if (!res.ok) {
     await db.logEvent("warn", `blog feed fetch failed ${res.status}`, { data: { url } });

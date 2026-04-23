@@ -17,8 +17,8 @@
     "plugins": [{ "name": "next" }],
     "paths": {
       "@/*": ["./src/*"],
-      "@crosspost/shared": ["../shared/src/index.ts"],
-      "@crosspost/shared/*": ["../shared/src/*"]
+      "@social-sync/shared": ["../shared/src/index.ts"],
+      "@social-sync/shared/*": ["../shared/src/*"]
     }
   },
   "include": ["next-env.d.ts", "src/**/*.ts", "src/**/*.tsx", ".next/types/**/*.ts"],

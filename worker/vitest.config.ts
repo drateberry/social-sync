@@ -7,7 +7,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      "@crosspost/shared": new URL("../shared/src/index.ts", import.meta.url).pathname,
+      "@social-sync/shared": new URL("../shared/src/index.ts", import.meta.url).pathname,
     },
   },
 });

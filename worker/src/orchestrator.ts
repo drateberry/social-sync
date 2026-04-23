@@ -1,4 +1,4 @@
-import type { NormalizedPost, Platform, PublishJob, StoredMedia } from "@crosspost/shared";
+import type { NormalizedPost, Platform, PublishJob, StoredMedia } from "@social-sync/shared";
 import type { Env } from "./env.js";
 import { Db } from "./lib/db.js";
 import { computeContentHash, sha256Hex } from "./lib/content-hash.js";

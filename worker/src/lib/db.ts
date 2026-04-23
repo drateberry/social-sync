@@ -9,7 +9,7 @@ import type {
   OgCacheRow,
   ApiUsageRow,
   SettingsRow,
-} from "@crosspost/shared";
+} from "@social-sync/shared";
 
 export class Db {
   constructor(private readonly d1: D1Database) {}

@@ -1,4 +1,4 @@
-import type { Platform } from "@crosspost/shared";
+import type { Platform } from "@social-sync/shared";
 
 /**
  * Deterministic idempotency key derived from our internal post_id and
@@ -15,10 +15,10 @@ export function idempotencyKey(postId: string, target: Platform): string {
 
 /**
  * Bluesky requires rkeys to match [A-Za-z0-9._:~-]{1,512}. A raw UUID with
- * dashes is fine; we prefix with 'cp' so crosspost-created records are
+ * dashes is fine; we prefix with 'ss' so Social-Sync-created records are
  * visually distinguishable in the repo.
  */
 export function blueskyRkey(postId: string, partIndex = 0): string {
   const safe = postId.replace(/[^A-Za-z0-9_.-]/g, "");
-  return partIndex === 0 ? `cp-${safe}` : `cp-${safe}-p${partIndex}`;
+  return partIndex === 0 ? `ss-${safe}` : `ss-${safe}-p${partIndex}`;
 }

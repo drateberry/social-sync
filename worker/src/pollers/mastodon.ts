@@ -1,4 +1,4 @@
-import type { NormalizedMedia, NormalizedPost } from "@crosspost/shared";
+import type { NormalizedMedia, NormalizedPost } from "@social-sync/shared";
 import type { Env } from "../env.js";
 import type { Db } from "../lib/db.js";
 

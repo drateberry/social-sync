@@ -1,4 +1,4 @@
-import type { NormalizedPost } from "@crosspost/shared";
+import type { NormalizedPost } from "@social-sync/shared";
 
 const MENTION_RE = /@[\w.-]+(?:@[\w.-]+)?/g;
 const URL_RE = /https?:\/\/\S+/gi;

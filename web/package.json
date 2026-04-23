@@ -1,5 +1,5 @@
 {
-  "name": "@crosspost/web",
+  "name": "@social-sync/web",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -10,7 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@crosspost/shared": "*",
+    "@social-sync/shared": "*",
     "clsx": "^2.1.1",
     "lucide-react": "^0.456.0",
     "next": "^15.0.3",

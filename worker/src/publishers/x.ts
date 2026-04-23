@@ -1,5 +1,5 @@
-import type { PublishResult } from "@crosspost/shared";
-import { PLATFORM_LIMITS } from "@crosspost/shared";
+import type { PublishResult } from "@social-sync/shared";
+import { PLATFORM_LIMITS } from "@social-sync/shared";
 import type { Env } from "../env.js";
 import { splitIntoThread } from "../lib/thread-splitter.js";
 

@@ -1,5 +1,5 @@
 import { AtpAgent } from "@atproto/api";
-import type { NormalizedPost } from "@crosspost/shared";
+import type { NormalizedPost } from "@social-sync/shared";
 import type { Env } from "../env.js";
 import type { Db } from "../lib/db.js";
 

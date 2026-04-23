@@ -1,4 +1,4 @@
-import type { PublishJob } from "@crosspost/shared";
+import type { PublishJob } from "@social-sync/shared";
 import type { Env } from "./env.js";
 import { handleFetch } from "./api.js";
 import { runIngestCycle } from "./orchestrator.js";

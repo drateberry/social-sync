@@ -1,5 +1,5 @@
-import type { NormalizedMedia, NormalizedPost } from "@crosspost/shared";
-import { X_OWNED_READ_PRICE_USD } from "@crosspost/shared";
+import type { NormalizedMedia, NormalizedPost } from "@social-sync/shared";
+import { X_OWNED_READ_PRICE_USD } from "@social-sync/shared";
 import type { Env } from "../env.js";
 import type { Db } from "../lib/db.js";
 

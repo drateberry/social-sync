@@ -1,11 +1,11 @@
-# Crosspost architecture
+# Social Sync architecture
 
 This doc exists primarily so that six months from now, when you (or anyone) need to re-verify the loop-prevention logic, you can read the reasoning in prose instead of reverse-engineering it from the SQL.
 
 ## Runtime at a glance
 
 - **Cloudflare Worker** triggered by a `*/5 * * * *` cron. Each tick:
-  1. Refreshes `blog_posts` from the drateberry.com RSS/Atom feed.
+  1. Refreshes `blog_posts` from the configured RSS/Atom feed, if `BLOG_FEED_URL` is set.
   2. Polls each enabled source platform (`mastodon`, `bluesky`, `x`) for new posts since `platform_accounts.last_seen_id`.
   3. For each post, runs the loop-prevention decision (below). Accepted posts become new origins; their media is cached in **R2**; publish jobs are enqueued on **Cloudflare Queues**.
 - **Queue consumer** runs inside the same worker. For each publish job it reads the origin, calls the target platform's publish API, and records the result in `post_mirrors`. Failures are retried with exponential backoff up to 5 times, then land in a DLQ.
@@ -71,9 +71,9 @@ The hash is insensitive to media ordering (we sort before hashing) because it sh
 
 ## Blog exclusion (rule 3)
 
-The user has an existing automation that announces new drateberry.com blog posts to all three networks directly. We don't want to re-amplify those announcements (they're already on all three) but we *do* want to sync posts where the user links to the blog later.
+If you run a blog with an auto-post-to-socials automation elsewhere, you don't want Social Sync to re-amplify those announcements (since the blog already posted them to all three networks). But you *do* want manual posts that happen to link to the blog to sync normally.
 
-Implementation: a small RSS/Atom poller populates `blog_posts` every tick. Rule 3 matches a social post against `blog_posts` only when both are true: (a) the post contains the blog URL (canonicalized), and (b) the post was published within 2h of the blog entry. Manual mentions of the blog (days later, or with substantial surrounding text) sail through.
+Implementation: when `BLOG_FEED_URL` is set, a small RSS/Atom poller populates `blog_posts` every tick. Rule 3 matches a social post against `blog_posts` only when both are true: (a) the post contains the blog URL (canonicalized), and (b) the post was published within 2h of the blog entry. Manual mentions of the blog (days later, or with substantial surrounding text) sail through. If `BLOG_FEED_URL` is empty, rule 3 is a no-op.
 
 ## Text transformation and platform specifics
 

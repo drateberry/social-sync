@@ -3,7 +3,7 @@ import Link from "next/link";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Crosspost",
+  title: "Social Sync",
   description: "Sync posts across X, Mastodon, and Bluesky",
 };
 
@@ -14,7 +14,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <header className="border-b border-[var(--border)]">
           <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
             <Link href="/" className="text-sm font-semibold tracking-tight">
-              crosspost
+              social sync
             </Link>
             <nav className="flex items-center gap-6 text-sm text-[var(--muted)]">
               <Link className="hover:text-[var(--fg)]" href="/">Home</Link>

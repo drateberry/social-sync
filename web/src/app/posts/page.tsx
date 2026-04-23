@@ -1,6 +1,6 @@
 import { Card, CardTitle } from "@/components/card";
 import { api } from "@/lib/api";
-import type { Platform, PostStatus } from "@crosspost/shared";
+import type { Platform, PostStatus } from "@social-sync/shared";
 
 export const dynamic = "force-dynamic";
 

@@ -1,4 +1,4 @@
-import type { PublishJob } from "@crosspost/shared";
+import type { PublishJob } from "@social-sync/shared";
 
 export interface Env {
   DB: D1Database;
@@ -7,7 +7,6 @@ export interface Env {
 
   LOG_LEVEL: string;
   BLOG_FEED_URL: string;
-  BLOG_HOSTNAME: string;
   ENABLE_X_SYNC: string;
 
   X_CLIENT_ID?: string;

@@ -2,7 +2,7 @@
 
 ## What we're billed for
 
-Crosspost only reads **your own tweets** via `GET /2/users/:id/tweets`. Under X's current "Owned Reads" pricing, each tweet returned in the `data` array of a response counts as one billable unit at $0.001 per unit, with the following dedup rule: requests for the same tweet ID within a rolling 24-hour UTC window are only charged once.
+Social Sync only reads **your own tweets** via `GET /2/users/:id/tweets`. Under X's current "Owned Reads" pricing, each tweet returned in the `data` array of a response counts as one billable unit at $0.001 per unit, with the following dedup rule: requests for the same tweet ID within a rolling 24-hour UTC window are only charged once.
 
 > **Verify before shipping to production.** X's pricing has changed multiple times. Before enabling `ENABLE_X_SYNC = "true"`, cross-check the current rate on the X developer portal and the dev community forum. Update `X_OWNED_READ_PRICE_USD` in `shared/src/constants.ts` if the number has changed.
 

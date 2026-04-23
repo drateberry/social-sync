@@ -1,4 +1,4 @@
-name = "crosspost"
+name = "social-sync"
 main = "src/index.ts"
 compatibility_date = "2026-04-01"
 compatibility_flags = ["nodejs_compat"]
@@ -7,64 +7,66 @@ workers_dev = false
 
 [vars]
 LOG_LEVEL = "info"
-BLOG_FEED_URL = "https://www.drateberry.com/feed.xml"
-BLOG_HOSTNAME = "www.drateberry.com"
+# Optional: URL of an RSS/Atom feed whose posts should be excluded from sync.
+# Leave empty to disable blog-exclusion. See docs/architecture.md rule 3.
+BLOG_FEED_URL = ""
+# Toggle to "true" after configuring X secrets and confirming the ceiling.
 ENABLE_X_SYNC = "false"
 
 [[d1_databases]]
 binding = "DB"
-database_name = "crosspost"
-database_id = "REPLACE_WITH_DB_ID_FROM_WRANGLER_D1_CREATE"
+database_name = "social-sync"
+# Run `wrangler d1 create social-sync` and paste the returned database_id here.
+database_id = ""
 migrations_dir = "migrations"
 
 [[r2_buckets]]
 binding = "MEDIA"
-bucket_name = "crosspost-media"
+bucket_name = "social-sync-media"
 
 [[queues.producers]]
 binding = "PUBLISH_QUEUE"
-queue = "crosspost-publish"
+queue = "social-sync-publish"
 
 [[queues.consumers]]
-queue = "crosspost-publish"
+queue = "social-sync-publish"
 max_batch_size = 10
 max_batch_timeout = 5
 max_retries = 5
-dead_letter_queue = "crosspost-publish-dlq"
+dead_letter_queue = "social-sync-publish-dlq"
 
 [triggers]
 crons = ["*/5 * * * *"]
 
 # ---- preview environment ----
 [env.preview]
-name = "crosspost-preview"
+name = "social-sync-preview"
 
 [env.preview.vars]
 LOG_LEVEL = "debug"
-BLOG_FEED_URL = "https://www.drateberry.com/feed.xml"
-BLOG_HOSTNAME = "www.drateberry.com"
+BLOG_FEED_URL = ""
 ENABLE_X_SYNC = "false"
 
 [[env.preview.d1_databases]]
 binding = "DB"
-database_name = "crosspost-preview"
-database_id = "REPLACE_WITH_PREVIEW_DB_ID"
+database_name = "social-sync-preview"
+database_id = ""
 migrations_dir = "migrations"
 
 [[env.preview.r2_buckets]]
 binding = "MEDIA"
-bucket_name = "crosspost-media-preview"
+bucket_name = "social-sync-media-preview"
 
 [[env.preview.queues.producers]]
 binding = "PUBLISH_QUEUE"
-queue = "crosspost-publish-preview"
+queue = "social-sync-publish-preview"
 
 [[env.preview.queues.consumers]]
-queue = "crosspost-publish-preview"
+queue = "social-sync-publish-preview"
 max_batch_size = 10
 max_batch_timeout = 5
 max_retries = 5
-dead_letter_queue = "crosspost-publish-preview-dlq"
+dead_letter_queue = "social-sync-publish-preview-dlq"
 
 [env.preview.triggers]
 crons = ["*/5 * * * *"]

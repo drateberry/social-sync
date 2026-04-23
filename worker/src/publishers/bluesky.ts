@@ -1,9 +1,9 @@
 import { AtpAgent, RichText } from "@atproto/api";
-import type { PublishResult } from "@crosspost/shared";
+import type { PublishResult } from "@social-sync/shared";
 import type { Env } from "../env.js";
 import { blueskyRkey } from "../lib/idempotency.js";
 import { splitIntoThread } from "../lib/thread-splitter.js";
-import { PLATFORM_LIMITS } from "@crosspost/shared";
+import { PLATFORM_LIMITS } from "@social-sync/shared";
 
 interface PublishInput {
   post_id: string;

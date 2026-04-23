@@ -1,0 +1,16 @@
+-- Social Sync: one-off seed for platform_accounts.
+-- Copy to seed.sql, fill in your IDs, and run:
+--   wrangler d1 execute social-sync --file=./migrations/seed.sql
+-- (Add --remote to seed production; default is --local.)
+--
+-- HOW TO FIND YOUR IDS:
+--   Mastodon: GET /api/v1/accounts/lookup?acct=YOUR_HANDLE → id
+--   Bluesky:  com.atproto.identity.resolveHandle?handle=YOUR_HANDLE → did
+--   X:        GET /2/users/by/username/YOUR_HANDLE → data.id
+
+INSERT INTO platform_accounts (platform, account_id, handle, instance_url, enabled) VALUES
+  ('mastodon', '<numeric mastodon id>', '<your handle>', '<https://your.instance>', 1),
+  ('bluesky',  '<did:plc:…>',           '<you.bsky.social>', NULL, 1),
+  ('x',        '<numeric x id>',        '<yourhandle>', NULL, 0);
+-- Note: X is disabled by default (enabled=0). Flip to 1 once you've
+-- configured X secrets and set ENABLE_X_SYNC="true" in wrangler.toml.

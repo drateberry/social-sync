@@ -4,7 +4,7 @@ import type {
   PostMirrorRow,
   SyncEventRow,
   SettingsRow,
-} from "@crosspost/shared";
+} from "@social-sync/shared";
 
 const WORKER_URL = process.env.NEXT_PUBLIC_WORKER_URL ?? "";
 

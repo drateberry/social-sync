@@ -1,4 +1,4 @@
-import type { PublishJob } from "@crosspost/shared";
+import type { PublishJob } from "@social-sync/shared";
 import type { Env } from "../env.js";
 import { Db } from "../lib/db.js";
 import { publishToMastodon } from "../publishers/mastodon.js";

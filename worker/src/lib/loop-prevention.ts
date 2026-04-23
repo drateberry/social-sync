@@ -1,9 +1,9 @@
-import type { NormalizedPost, Platform, SkipReason } from "@crosspost/shared";
+import type { NormalizedPost, Platform, SkipReason } from "@social-sync/shared";
 import {
   BLOG_URL_MATCH_WINDOW_MS,
   CONTENT_HASH_MATCH_WINDOW_MS,
   NOSYNC_TAG,
-} from "@crosspost/shared";
+} from "@social-sync/shared";
 import type { Db } from "./db.js";
 
 export type LoopDecision =
@@ -65,7 +65,8 @@ export async function decideSyncAction(
     return { action: "skip", reason: "origin_seen", detail: `post_id=${existingOrigin.id}` };
   }
 
-  // Rule 3 — does this reference a recently-published drateberry.com post?
+  // Rule 3 — does this reference a recently-published post from the
+  // configured blog feed? (Disabled if BLOG_FEED_URL is empty.)
   const blogMatch = await matchesRecentBlogPost(db, post, now);
   if (blogMatch) {
     return { action: "skip", reason: "origin_blog", detail: `blog_url=${blogMatch}` };

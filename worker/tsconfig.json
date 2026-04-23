@@ -4,8 +4,8 @@
     "types": ["@cloudflare/workers-types"],
     "outDir": "./dist",
     "paths": {
-      "@crosspost/shared": ["../shared/src/index.ts"],
-      "@crosspost/shared/*": ["../shared/src/*"]
+      "@social-sync/shared": ["../shared/src/index.ts"],
+      "@social-sync/shared/*": ["../shared/src/*"]
     },
     "baseUrl": "."
   },

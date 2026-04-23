@@ -8,18 +8,18 @@ describe("parseFeed", () => {
   <title>Example</title>
   <item>
     <title>Hello</title>
-    <link>https://www.drateberry.com/posts/hello</link>
+    <link>https://www.example.com/posts/hello</link>
     <pubDate>Mon, 20 Apr 2026 12:00:00 GMT</pubDate>
   </item>
   <item>
     <title>Second</title>
-    <link>https://www.drateberry.com/posts/second</link>
+    <link>https://www.example.com/posts/second</link>
     <pubDate>Tue, 21 Apr 2026 09:00:00 GMT</pubDate>
   </item>
 </channel></rss>`;
     const entries = parseFeed(xml);
     expect(entries).toHaveLength(2);
-    expect(entries[0]?.url).toBe("https://www.drateberry.com/posts/hello");
+    expect(entries[0]?.url).toBe("https://www.example.com/posts/hello");
     expect(entries[0]?.title).toBe("Hello");
     expect(entries[0]?.published_at).toBe(Date.parse("Mon, 20 Apr 2026 12:00:00 GMT"));
   });

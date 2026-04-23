@@ -1,0 +1,30 @@
+# Copy this file to `.dev.vars` and fill in the values for local `wrangler dev`.
+# In production, set each as a secret via `wrangler secret put <NAME>`.
+# Never commit .dev.vars — it is in .gitignore.
+
+# ------------- Mastodon -------------
+MASTODON_INSTANCE_URL=""        # e.g. https://mastodon.social
+MASTODON_ACCESS_TOKEN=""
+
+# ------------- Bluesky --------------
+BLUESKY_IDENTIFIER=""            # e.g. you.bsky.social
+BLUESKY_APP_PASSWORD=""          # generate at Settings → App passwords
+BLUESKY_SERVICE_URL=""           # optional, defaults to https://bsky.social
+
+# ------------- X --------------------
+# Required only if you set ENABLE_X_SYNC = "true" in wrangler.toml.
+X_BEARER_TOKEN=""
+X_CLIENT_ID=""
+X_CLIENT_SECRET=""
+
+# ------------- Admin auth -----------
+# Option A: Cloudflare Access — no secret needed here. The worker trusts
+# the CF-Access-Authenticated-User-Email header set by Access at the edge.
+#
+# Option B: password fallback. Run:
+#   printf 'your-long-random-password' | shasum -a 256
+# and paste the resulting hex digest below.
+ADMIN_PASSWORD_HASH=""
+
+# Optional session secret (reserved for future cookie-based auth).
+SESSION_SECRET=""

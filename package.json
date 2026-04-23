@@ -1,5 +1,5 @@
 {
-  "name": "crosspost",
+  "name": "social-sync",
   "version": "0.1.0",
   "private": true,
   "description": "Cross-platform social sync for X, Mastodon, and Bluesky",

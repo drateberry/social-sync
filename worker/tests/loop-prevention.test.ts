@@ -5,7 +5,7 @@ import type {
   Platform,
   PostMirrorRow,
   PostRow,
-} from "@crosspost/shared";
+} from "@social-sync/shared";
 import { decideSyncAction, canonicalizeUrl } from "../src/lib/loop-prevention.js";
 import { computeContentHash } from "../src/lib/content-hash.js";
 import type { Db } from "../src/lib/db.js";
@@ -213,14 +213,14 @@ describe("loop-prevention decideSyncAction", () => {
 
   it("rule 3: blog URL + recent publish window → skipped as origin_blog", async () => {
     db.addBlog({
-      url: "https://www.drateberry.com/posts/foo",
+      url: "https://www.example.com/posts/foo",
       title: "Foo",
       published_at: NOW - 30 * 60 * 1000, // 30 min ago
       discovered_at: NOW - 30 * 60 * 1000,
     });
     const post = makePost({
-      text: "New post: Foo https://www.drateberry.com/posts/foo",
-      urls_in_text: ["https://www.drateberry.com/posts/foo"],
+      text: "New post: Foo https://www.example.com/posts/foo",
+      urls_in_text: ["https://www.example.com/posts/foo"],
       created_at: NOW - 29 * 60 * 1000,
     });
     const hash = await computeContentHash(post, []);
@@ -234,14 +234,14 @@ describe("loop-prevention decideSyncAction", () => {
 
   it("rule 3 does NOT fire when blog post is older than the 2h window", async () => {
     db.addBlog({
-      url: "https://www.drateberry.com/posts/old",
+      url: "https://www.example.com/posts/old",
       title: "Old",
       published_at: NOW - 5 * 60 * 60 * 1000, // 5h ago
       discovered_at: NOW - 5 * 60 * 60 * 1000,
     });
     const post = makePost({
-      text: "Revisiting my old post https://www.drateberry.com/posts/old",
-      urls_in_text: ["https://www.drateberry.com/posts/old"],
+      text: "Revisiting my old post https://www.example.com/posts/old",
+      urls_in_text: ["https://www.example.com/posts/old"],
       created_at: NOW,
     });
     const hash = await computeContentHash(post, []);
@@ -255,15 +255,15 @@ describe("loop-prevention decideSyncAction", () => {
 
   it("rule 3 canonicalizes URLs to match regardless of tracking params", async () => {
     db.addBlog({
-      url: "https://www.drateberry.com/posts/tracked",
+      url: "https://www.example.com/posts/tracked",
       title: "Tracked",
       published_at: NOW - 10 * 60 * 1000,
       discovered_at: NOW - 10 * 60 * 1000,
     });
     const post = makePost({
-      text: "New post https://www.drateberry.com/posts/tracked?utm_source=x&utm_medium=social",
+      text: "New post https://www.example.com/posts/tracked?utm_source=x&utm_medium=social",
       urls_in_text: [
-        "https://www.drateberry.com/posts/tracked?utm_source=x&utm_medium=social",
+        "https://www.example.com/posts/tracked?utm_source=x&utm_medium=social",
       ],
       created_at: NOW,
     });

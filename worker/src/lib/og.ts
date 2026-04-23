@@ -1,4 +1,4 @@
-import { OG_CACHE_TTL_MS } from "@crosspost/shared";
+import { OG_CACHE_TTL_MS } from "@social-sync/shared";
 import type { Db } from "./db.js";
 
 export interface OgCard {
@@ -38,7 +38,7 @@ export async function getOgCard(db: Db, url: string): Promise<OgCard> {
 export async function fetchOgCard(url: string): Promise<OgCard> {
   try {
     const res = await fetch(url, {
-      headers: { "user-agent": "crosspost-sync/0.1 OG fetcher" },
+      headers: { "user-agent": "social-sync/0.1 OG fetcher" },
       redirect: "follow",
     });
     if (!res.ok) return { url, title: null, description: null, image_url: null };

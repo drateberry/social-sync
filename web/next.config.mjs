@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  transpilePackages: ["@crosspost/shared"],
+  transpilePackages: ["@social-sync/shared"],
   env: {
     NEXT_PUBLIC_WORKER_URL: process.env.WORKER_URL ?? "",
   },

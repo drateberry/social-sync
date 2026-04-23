@@ -15,7 +15,7 @@ For the design rationale, especially loop prevention, see [`docs/architecture.md
 /worker      Cloudflare Worker (pollers, publishers, orchestrator, queue consumer, admin API)
   /migrations  D1 schema migrations + seed template
   /tests       Vitest unit tests (loop-prevention canary lives here)
-/web         Next.js (App Router) dashboard, deployed to Cloudflare Pages
+/web         Next.js (App Router) dashboard, deployed as a Cloudflare Worker via OpenNext
 /docs        Architecture + cost notes
 ```
 
@@ -108,17 +108,23 @@ Leave `BLOG_FEED_URL = ""` to disable this feature entirely.
 
 ### 6. Deploy
 
-```bash
-# worker
-cd worker && npx wrangler deploy
+Deploy the worker:
 
-# dashboard (Cloudflare Pages)
-cd ../web && cp .env.example .env.local   # then edit to point at your worker URL
-npm run build
-npx wrangler pages deploy .next --project-name=social-sync
+```bash
+cd worker && npx wrangler deploy
 ```
 
-Set `WORKER_URL` in your Pages project's environment variables to the deployed worker URL.
+Deploy the dashboard. It's a Next.js App Router app with server components, compiled to a Cloudflare Worker (with static assets) via the [OpenNext Cloudflare adapter](https://opennext.js.org/cloudflare):
+
+```bash
+cd ../web
+cp .env.example .env.local                  # then edit WORKER_URL to the deployed worker URL
+npm run cf:deploy                           # opennextjs-cloudflare build + deploy
+```
+
+The dashboard deploys as a separate Worker named `social-sync-web` (see `web/wrangler.toml`) — distinct from the API worker deployed in the first step. You can preview locally with `npm run cf:preview`.
+
+`WORKER_URL` is baked into the build (see `next.config.mjs`), so it must be set in `.env.local` **before** you run `cf:deploy`. If the API worker URL changes, rebuild and redeploy — setting env vars in the Cloudflare dashboard after the fact will not affect the already-built bundle.
 
 ---
 
